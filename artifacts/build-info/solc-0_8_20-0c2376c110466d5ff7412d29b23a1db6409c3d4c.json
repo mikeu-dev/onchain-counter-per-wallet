@@ -1,0 +1,39 @@
+{
+  "_format": "hh3-sol-build-info-1",
+  "id": "solc-0_8_20-0c2376c110466d5ff7412d29b23a1db6409c3d4c",
+  "solcVersion": "0.8.20",
+  "solcLongVersion": "0.8.20+commit.a1b79de6",
+  "userSourceNameMap": {
+    "contracts/Counter.sol": "project/contracts/Counter.sol"
+  },
+  "input": {
+    "language": "Solidity",
+    "settings": {
+      "evmVersion": "shanghai",
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "outputSelection": {
+        "*": {
+          "": [
+            "ast"
+          ],
+          "*": [
+            "abi",
+            "evm.bytecode",
+            "evm.deployedBytecode",
+            "evm.methodIdentifiers",
+            "metadata"
+          ]
+        }
+      },
+      "remappings": []
+    },
+    "sources": {
+      "project/contracts/Counter.sol": {
+        "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.20;\n\n/**\n * @title Counter\n * @dev Smart contract yang menyimpan counter untuk setiap wallet address\n * @notice Setiap address memiliki counter pribadi yang dapat di-increment atau decrement\n */\ncontract Counter {\n    // Mapping untuk menyimpan counter setiap address\n    mapping(address => uint256) private counters;\n\n    // Event yang di-emit ketika counter berubah\n    event CounterChanged(address indexed user, uint256 newValue);\n\n    /**\n     * @dev Increment counter untuk msg.sender sebesar 1\n     * @notice Menambah nilai counter Anda sebesar 1\n     */\n    function increment() external {\n        counters[msg.sender] += 1;\n        emit CounterChanged(msg.sender, counters[msg.sender]);\n    }\n\n    /**\n     * @dev Decrement counter untuk msg.sender sebesar 1\n     * @notice Mengurangi nilai counter Anda sebesar 1\n     * @custom:requirement Counter harus lebih besar dari 0\n     */\n    function decrement() external {\n        require(counters[msg.sender] > 0, \"Counter cannot go below zero\");\n        counters[msg.sender] -= 1;\n        emit CounterChanged(msg.sender, counters[msg.sender]);\n    }\n\n    /**\n     * @dev Mendapatkan nilai counter dari address tertentu\n     * @param user Address yang ingin dicek counter-nya\n     * @return Nilai counter dari address tersebut\n     */\n    function getCounter(address user) external view returns (uint256) {\n        return counters[user];\n    }\n\n    /**\n     * @dev Mendapatkan nilai counter dari msg.sender\n     * @return Nilai counter Anda saat ini\n     */\n    function getMyCounter() external view returns (uint256) {\n        return counters[msg.sender];\n    }\n\n    /**\n     * @dev Reset counter ke 0 (optional feature)\n     * @notice Mengatur ulang counter Anda ke 0\n     */\n    function reset() external {\n        counters[msg.sender] = 0;\n        emit CounterChanged(msg.sender, 0);\n    }\n\n    /**\n     * @dev Set counter ke nilai tertentu (optional feature)\n     * @param value Nilai baru untuk counter\n     * @notice Mengatur counter Anda ke nilai tertentu\n     */\n    function setCounter(uint256 value) external {\n        counters[msg.sender] = value;\n        emit CounterChanged(msg.sender, value);\n    }\n}\n"
+      }
+    }
+  }
+}
